@@ -17,13 +17,13 @@ def index():
 
 @app.route('/guess', methods=['GET', 'POST'])
 def guess():
-    user_guess = request.form.get('guess')
+    user_guess = request.json.get('guess')
     with open('words.txt', 'r') as file:
         for line in file:
             if line.strip() == user_guess:
                 result = boggle_game.check_valid_word(session['board'], user_guess)
                 if result == 'ok':
-                    return jsonify(result='ok')
+                    return jsonify(result='ok', message='Word is valid and exists on the board.')
                 elif result == 'not-on-board':
-                    return jsonify(result='not-on-board')
-    return jsonify(result='not-word')
+                    return jsonify(result='not-on-board', message='Word is not on the board.')
+    return jsonify(result='not-word', message='Word is not a valid word.')

@@ -7,6 +7,8 @@
 
 <h1>Boggle</h1>
 
+<h2>Score: <span id="score">0</span></h2>
+
 <table>
     {% for row in board %}
     <tr>
@@ -21,6 +23,8 @@
     <input type="text" id="guess" name="guess">
     <input type="submit" value="Submit">
 </form>
+
+<div id="message"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
