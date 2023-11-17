@@ -10,6 +10,11 @@ debug = DebugToolbarExtension(app)
 boggle_game = Boggle()
 
 @app.route('/')
+
+
+
+# TODO: (change route to /game and make start page route / with start button that then leads to game and have a timer start)
+@app.route('/')
 def index():
     board = boggle_game.make_board()
     session['board'] = board

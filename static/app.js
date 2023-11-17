@@ -10,17 +10,6 @@ guessForm.addEventListener('submit', function (e) {
         .then(function (response) {
             returnGuessMessage(response);
             checkIfWordGuessed(guess, response);
-
-
-
-
-            // if (result === 'ok') {
-            //     console.log('Word is valid and exists on the board.');
-            // } else if (result === 'not-on-board') {
-            //     console.log('Word is not on the board.');
-            // } else if (result === 'not-word') {
-            //     console.log('Word is not a valid word.');
-            // }
         })
     guessInput.value = '';
 })
@@ -29,11 +18,6 @@ function returnGuessMessage(response) {
     const message = response.data.message;
     const messageDiv = document.getElementById('message');
     messageDiv.textContent = message;
-    // if (response.data.result === 'ok') {
-    //     let points = guess.length
-    //     let score = updateScore(points);
-    //     document.querySelector('#score').textContent = score;
-    // }
 }
 
 function checkIfWordGuessed(guess, response) {
@@ -44,9 +28,6 @@ function checkIfWordGuessed(guess, response) {
             document.querySelector('#score').textContent = score;
             guessedWords.push(guess);
         }
-        // let points = guess.length
-        // let score = updateScore(points);
-        // document.querySelector('#score').textContent = score;
     }
     else {
         const messageDiv = document.getElementById('message');
