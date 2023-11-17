@@ -17,4 +17,13 @@
     {% endfor %}
 </table>
 
+<form action="/guess" method="POST" id="guess-form">
+    <input type="text" id="guess" name="guess">
+    <input type="submit" value="Submit">
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="static/app.js"></script>
+
 {% endblock %}

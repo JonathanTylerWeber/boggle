@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, session
+from flask import Flask, request, render_template, redirect, session, jsonify
 from boggle import Boggle
 from flask_debugtoolbar import DebugToolbarExtension
 
@@ -15,3 +15,15 @@ def index():
     session['board'] = board
     return render_template('index.html', board=board)
 
+@app.route('/guess', methods=['GET', 'POST'])
+def guess():
+    user_guess = request.form.get('guess')
+    with open('words.txt', 'r') as file:
+        for line in file:
+            if line.strip() == user_guess:
+                result = boggle_game.check_valid_word(session['board'], user_guess)
+                if result == 'ok':
+                    return jsonify(result='ok')
+                elif result == 'not-on-board':
+                    return jsonify(result='not-on-board')
+    return jsonify(result='not-word')
