@@ -36,8 +36,7 @@ function updateTimer() {
     if (game === 'on') {
         if (time === 0) {
             game = 'off'
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = 'Game Over';
+            endGame();
         }
         else {
             time--;
@@ -59,7 +58,7 @@ function returnGuessMessage(response) {
         messageDiv.textContent = message;
     }
     else {
-        messageDiv.textContent = 'Game Over';
+        endGame();
     }
 }
 
@@ -67,8 +66,7 @@ function checkIfWordGuessed(guess, response) {
     if (!guessedWords.includes(guess)) {
         if (response.data.result === 'ok') {
             let points = guess.length
-            let score = updateScore(points);
-            document.querySelector('#score').textContent = score;
+            updateScore(points);
             guessedWords.push(guess);
         }
     }
@@ -81,7 +79,24 @@ function checkIfWordGuessed(guess, response) {
 function updateScore(points) {
     let score = parseInt(document.querySelector('#score').textContent);
     score += points;
+    document.querySelector('#score').textContent = score;
+    let highScore = parseInt(document.querySelector('#hi-score').textContent);
+    if (score > highScore) {
+        document.querySelector('#hi-score').textContent = score;
+    }
     return score;
+}
+
+const endGameForm = document.createElement('form');
+endGameForm.method = 'POST';
+endGameForm.action = '/endgame';
+
+function endGame() {
+    axios.post('/endgame')
+        .then(function (response) {
+            endGameForm.submit();
+            window.location.href = '/';
+        })
 }
 
 

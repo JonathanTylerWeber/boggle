@@ -4,9 +4,14 @@
 
 
 {% block content %}
-<h1>Boggle</h1>
-<button type="button" id="start-btn">Start Game</button>
+<h1 class="start" id="start-title">Boggle</h1>
+<br>
+<h2 class="start">High Score: <span id="hi-score"> {{ highscore }}</span></h2>
+<h2 class="start">Times Played: <span id="times-played"> {{ nplays }}</span></h2>
+<br>
+<div id="btn">
+    <button type="button" id="start-btn" class="start">New Game</button>
+</div>
 
-<script src="static/app.js"></script>
 
 {% endblock %}
