@@ -1,23 +1,66 @@
-const guessForm = document.querySelector('#guess-form')
-
 let guessedWords = [];
+let game = 'on'
 
-guessForm.addEventListener('submit', function (e) {
-    e.preventDefault()
-    let guessInput = document.querySelector('#guess')
-    let guess = guessInput.value
-    axios.post('/guess', { 'guess': guess })
-        .then(function (response) {
-            returnGuessMessage(response);
-            checkIfWordGuessed(guess, response);
+const startButton = document.querySelector('#start-btn');
+if (startButton) {
+    startButton.addEventListener('click', function () {
+        const redirectTo = 'http://127.0.0.1:5000/game';
+        window.location.href = redirectTo;
+    })
+}
+
+const guessForm = document.querySelector('#guess-form')
+if (guessForm) {
+    if (game === 'on') {
+        guessForm.addEventListener('submit', function (e) {
+            e.preventDefault()
+            let guessInput = document.querySelector('#guess')
+            let guess = guessInput.value
+            axios.post('/guess', { 'guess': guess })
+                .then(function (response) {
+                    returnGuessMessage(response);
+                    checkIfWordGuessed(guess, response);
+                })
+            guessInput.value = '';
         })
-    guessInput.value = '';
-})
+    }
+    else {
+        guessForm.removeEventListener();
+    }
+}
+
+let timer = document.querySelector('#timer')
+
+function updateTimer() {
+    let time = parseInt(timer.textContent);
+    if (game === 'on') {
+        if (time === 0) {
+            game = 'off'
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = 'Game Over';
+        }
+        else {
+            time--;
+            timer.textContent = time;
+        }
+    }
+}
+
+
+if (timer) {
+    setInterval(updateTimer, 1000);
+}
+
 
 function returnGuessMessage(response) {
     const message = response.data.message;
     const messageDiv = document.getElementById('message');
-    messageDiv.textContent = message;
+    if (game === 'on') {
+        messageDiv.textContent = message;
+    }
+    else {
+        messageDiv.textContent = 'Game Over';
+    }
 }
 
 function checkIfWordGuessed(guess, response) {
@@ -40,4 +83,6 @@ function updateScore(points) {
     score += points;
     return score;
 }
+
+
 
