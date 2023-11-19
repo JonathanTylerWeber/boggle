@@ -25,15 +25,16 @@ def index():
     nplays = session.get("nplays", 0)
     return render_template("index.html", board=board, highscore=highscore, nplays=nplays)
 
-@app.route('/endgame', methods=['POST'])
+@app.route('/endgame', methods=['GET', 'POST'])
 def end_game():
     """end game saving number of plays and updating high score"""
+    session['nplays'] = session.get('nplays', 0) + 1
     score = session.pop('score', 0)
     highscore = session.get('highscore', 0)
     if score > highscore:
         session['highscore'] = score
-    session['nplays'] = session.get('nplays', 0) + 1
-    return redirect('start.html')
+    print("nplays:", session['nplays'])
+    return redirect('/')
 
 @app.route('/guess', methods=['GET', 'POST'])
 def guess():
